@@ -2,7 +2,7 @@ const graphql = require('graphql')
 const {
   GraphQLObjectType,
   GraphQLString
-} = GraphQL
+} = graphql
 
 const UserType = new GraphQLObjectType({
   name: 'UserType',
