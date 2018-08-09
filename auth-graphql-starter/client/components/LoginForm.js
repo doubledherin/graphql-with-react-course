@@ -6,10 +6,21 @@ import query from '../queries/CurrentUser'
 
 class LoginForm extends Component {
 
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      errors: []
+    }
+  }
+
   handleLogin({ email, password}) {
     this.props.mutate({
       variables: { email, password },
       refetchQueries: [{ query }]
+    }).catch(res => {
+      const errors = res.graphQLErrors.map(error => error.message)
+      this.setState({ errors })
     })
   }
 
@@ -17,7 +28,9 @@ class LoginForm extends Component {
     return (
       <div>
         <h3>Log in</h3>
-        <AuthForm onSubmit={ this.handleLogin.bind(this) }/>
+        <AuthForm
+          onSubmit={ this.handleLogin.bind(this) }
+          errors={this.state.errors}/>
       </div>
     )
   }
